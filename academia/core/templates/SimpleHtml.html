@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+    <title>Simple formulario</title>
+</head>
+<body>
+    <h1>Datos simples</h1>
+    <h3 style="color:red">{{mensaje}}</h3>
+    <form action="." method="get" >
+    	{% csrf_token %}
+        <!-- <table> -->
+            {{ form.as_p }}
+        <!-- </table> -->
+        <p><input type="submit" value="Submit"></p>
+    </form>
+</body>
+</html>

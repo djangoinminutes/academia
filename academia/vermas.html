@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+<!-- llamamos la librería jquery  desde sus cdn Hosted--> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<!-- llamamos al jquery.expander.js mira sus archivos de descarga-->
+<script src="jquery.expander.js"></script>
+<!--codigo javascript para su configuración o efecto de un solo llamado por defecto-->
+<script type="text/javascript">
+  $(document).ready(function() {
+      // use esta configuracion simple para valores por defecto
+      //$('div.expandable p').expander();
+      // *** O ***
+      // configure de la siguiente manera
+      $('div.expandable p').expander({
+      	alert('hola');
+      slicePoint: 50, // si eliminamos por defecto es 100 caracteres
+      expandText: '[...]', // por defecto es 'read more...'
+      collapseTimer: 5000, // tiempo de para cerrar la expanción si desea poner 0 para no cerrar
+      userCollapseText: '[^]' // por defecto es 'read less...'
+    });
+  });
+</script>	
+</head>
+<body>
+	<!--llamamos la clase expandable adicional podemos darle mas estilo pero ese no es el foco del tutorial-->
+<div class="expandable">
+<!-- Nuestro parrafo a mostrar-->
+<p>Era una mañana fría de invierno cuando amanecí en ese pequeño cubículo de hospital, una cortina verde roída cubría la mitad de la vista que tenía del resto de la enorme habitación que compartía con otras cinco camas. Recordaba el día anterior claramente, me había internado por la tarde al romper fuente y esperé un rato antes de pasar al  quirofano para dar a luz a mi primer hijo.</p>
+</div>
+</body>
+</html>

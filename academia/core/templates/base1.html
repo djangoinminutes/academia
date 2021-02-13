@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+	<title>Academia</title>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Hanalei+Fill&display=swap" rel="stylesheet"> 
+
+	<style type="text/css">
+		#div_lt_logo{width: 30%; display:flex;flex-direction: row; justify-content: center; align-items: center;}
+		#div_lt_titulo {width: 69%; display:flex; flex-direction: row; justify-content: center; align-items: center; font-family: 'eufm10', sans-serif ; font-size: 30pt; font-weight: ;}
+		.logo_titulo {display: flex; justify-content:space-between; height: 60px; align-items: stretch;}
+		/*div {height: 100px;}*/
+		main section:first-child #div_lt_logo img {width:40px; height: 40px}
+		main section:first-child div:first-of-type {background-color: lightgray;}
+		main section:first-child div:last-of-type {background-color: #ffeeaa;}
+	</style>
+
+
+</head>
+
+<body>
+	<main>
+		<section class="logo_titulo">
+			<div id="div_lt_logo">
+				<img src="../static/img/logo.png" alt="">
+			</div>
+			<div id="div_lt_titulo">
+				<span>Academia</span>
+			</div>
+		</section>
+
+		<section class="busqueda_menu">
+			<div id="div_bm_busqueda">
+				<div class="texto_busqueda">
+					<input type="text" placeholder="Datos de busqueda">
+				</div>
+				<div class="boton_busqueda">
+					<a href="" >
+						<img src="../static/img/lupa.png" alt="">
+					</a>
+				</div>
+			</div>			
+			<div id="div_bm_menu">
+				<ul>
+					<li>Vivienda</li>
+				</ul>
+			</div>
+			<div id="div_bm_menu_seguridad">
+				<ul>
+					<li>Registro</li>
+					<li>Login</li>
+				</ul>
+			</div>
+		</section>
+	</main>
+</body>
+</html>

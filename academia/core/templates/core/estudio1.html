@@ -1,0 +1,272 @@
+{% extends 'base_formularios.html' %}
+{% load static %}
+{% block cursos_izquierda %}
+<style>
+div.container {
+	height: 500px; 
+	/*width: 500px;*/
+	overflow: auto;
+	/*border: 1px solid #666;*/
+	/*background-color: #ccc;*/
+	/*padding: 8px;*/
+}
+</style>
+<style>
+
+.nested {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+ul, .capitulo {
+  list-style-type: none;
+}
+.box::before {
+  content: "\2610";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+.check-box::before {
+  content: "\2611"; 
+  color: dodgerblue;
+}
+.box {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
+
+</style>
+<!--   <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
+  <div id="demo" class="collapse">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  </div>
+</div> -->
+	<div class="capitulos container" >
+		<div class="row mb-4">
+			<div class="col">
+				Contenido
+			</div>
+		</div>
+		<div class="row">
+		<ul class="capitulo">
+			{% for capitulo in capitulos %}
+				<li><span id="capitulo_{{capitulo.id}}" class="box"><a href="{% url 'core:estudio' curso.id %}?vuelve=1&capitulo={{capitulo.id}}&tema=0&detalle=0">{{capitulo}}</a></span>
+				<ul class="nested">
+					{% for tema in temas %}
+						{% if tema.capitulo.id  == capitulo.id %}
+							<li>
+								<span id="tema_{{tema.id}}" class="box"><a href="{% url 'core:estudio' curso.id %}?vuelve=1&capitulo={{capitulo.id}}&tema={{tema.id}}&detalle=0">{{tema}}</a></span>
+								<ul class="nested">
+									{% for detalle in detalles %}
+										{% if detalle.tema.id == tema.id %}
+											<li>
+												<a href="{% url 'core:estudio' curso.id %}?vuelve=1&capitulo={{capitulo.id}}&tema={{tema.id}}&detalle={{detalle.id}}"><span id="detalle_{{detalle.id}}">{{detalle}}</span></a>
+											</li>
+										{% endif %}
+									{% endfor %}
+								</ul>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+				</li>
+			{% endfor %}
+		</ul>
+		</div>
+	</div>
+
+<script>
+//Convertimos en array las variables en el GET
+function getVariableGetByName() {
+   var variables = {};
+   var arreglos = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+      variables[key] = value;
+   });
+   return variables;
+}
+// var prodId = getParameterByName('capitulo');
+// alert(prodId);
+var toggler = document.getElementsByClassName("box");
+// alert(toggler.length);
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("check-box");
+	// alert(this.parentElement.querySelector(".nested").getAttribute("id"));
+	// alert(this.classList.item(0));
+	// alert(this.classList.item(1));
+  });
+}
+
+var capitulo_id = {{capitulo_id}};
+var tema_id = {{tema_id}};
+var detalle_id = {{detalle_id}};
+
+
+if (detalle_id != '0'){
+	tema = document.getElementById('tema_' + tema_id);
+	tema.parentElement.querySelector(".nested").classList.toggle("active");
+	tema.classList.toggle("check-box");
+	capitulo = document.getElementById('capitulo_' + capitulo_id);
+	capitulo.parentElement.querySelector(".nested").classList.toggle("active");
+	capitulo.classList.toggle("check-box");
+   	detalle = document.getElementById("detalle_" + detalle_id);
+   	detalle.style.background = "#ffaadd";
+	} else {
+		if (tema_id != 0){
+			capitulo = document.getElementById('capitulo_' + capitulo_id);
+			capitulo.parentElement.querySelector(".nested").classList.toggle("active");
+			capitulo.classList.toggle("check-box");
+		   	tema = document.getElementById("tema_" + tema_id);
+		   	tema.style.background = "#ffaadd";
+		} else {
+			capitulo = document.getElementById("capitulo_" + capitulo_id);
+		   	capitulo.style.background = "#ffaadd";
+		}		
+	}
+
+
+
+</script>
+{% endblock %}
+{% block cursos_centro %}
+
+<style>
+	/* Capitulos */
+
+.nombre_capitulo {font-family: Roboto; font-weight: bold; font-size: 20pt;}
+.descripcion_capitulo {padding:15px; background-color: #ffeeff55;}
+.nombre_tema {font-family: Roboto; font-weight: bold; font-size: 16pt; padding-left: 25px;}
+.descripcion_tema {padding:15px 15px 15px 25px;}
+.nombre_detalle {font-family: Roboto; font-weight: bold; font-size: 14pt; padding-left: 35px;}
+.descripcion_detalle {padding:25px 25px 25px 35px; font-family: serif;}
+.texto_detalle {display: flex;justify-content: center; align-items: center;}
+.referencia {text-align: center; font-weight: bold;}
+.imagen_detalle {display: flex;justify-content: center;align-items: center;}
+.url_detalle {display: flex;justify-content: center;align-items: center;}
+.video_detalle {display: flex;justify-content: center;align-items: center;}
+.audio_detalle {display: flex;justify-content: center;align-items: center;}
+
+</style>
+	<div class="container">
+	{% for objeto in contenido %}
+		{% if objeto.1 == 'capitulo' %}
+			<div class="row mb-2">
+				<div class="col-12  nombre_capitulo">
+					{{objeto.0.nombre}}
+				</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col  descripcion_capitulo">
+					{{objeto.0.descripcion|safe}}
+				</div>
+			</div>
+		{% endif %}
+		{% if objeto.1 == 'tema' %}
+			<div class="row mb-2">
+				<div class="col  nombre_tema">
+					<a name="{{objeto.0.nombre}}">{{objeto.0.nombre}}</a>
+				</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col descripcion_tema">
+					{{objeto.0.descripcion|safe}}
+				</div>
+			</div>
+		{% endif %}
+		{% if objeto.1 == 'detalle' %}
+			<div class="row mb-2">
+				<div class="col nombre_detalle">
+					{{objeto.0.nombre}}
+				</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col descripcion_detalle">
+					{{objeto.0.descripcion|safe}}
+				</div>
+			</div>
+			{% if objeto.0.texto != '' %}
+				<div class="row mb-0">
+					<div class="col texto_detalle">
+						{{objeto.0.texto|safe}}
+					</div>
+				</div>
+				<div class="row mb-5">
+					<div class="col referencia">
+						({{objeto.0.referencia_texto}})
+					</div>
+				</div>
+			{% endif %}
+			{% if objeto.0.dirurl != '' %}
+				<div class="row mb-5">
+					<div class="col url_detalle">
+						<a href="{{objeto.0.dirurl}}">{{objeto.0.dirurl}}</a>
+					</div>
+				</div>
+			{% endif %}
+			{% if objeto.0.imagen %}
+				<div class="row mb-1 ">
+					<div class="col imagen_detalle">
+						<img src="{{objeto.0.imagen.url}}" width="90%" height="90%" alt="">
+					</div>
+				</div>
+				<div class="row mb-5 ">
+					<div class="col referencia">
+						({{objeto.0.referencia_imagen}})
+					</div>
+				</div>
+			{% endif %}
+			{% if objeto.0.tipoarchivo == 'v' %}
+				<div class="row mb-2">
+					<div class="col-12 video_detalle">
+						<video width="100%" height="100%" controls>
+							<source src="{{objeto.0.media.url}}" type='video/mp4'>
+						</video>	
+					</div>
+				</div>
+				<div class="row mb-5">
+					<div class="col referencia">
+						({{objeto.0.referencia_media}})
+					</div>
+				</div>
+			{% endif %}
+			{% if objeto.0.tipoarchivo == 'a' %}
+				<div class="row">
+					<div class="col audio_detalle">
+						<audio width='100%' height="100%" controls>
+							<source src="{{objeto.0.media.url}}" type= "audio/mp3">
+						</audio>	
+					</div>
+				</div>
+				<div class="row mb-5">
+					<div class="col referencia">
+						({{objeto.0.referencia_media}})
+					</div>
+				</div>
+			{% endif %}
+			{% if objeto.0.tipoarchivo == 't' %}
+				<div class="row">
+					<div class="col archivo_detalle">
+						<a href="http://127.0.0.1:8000/media/visitante/{{objeto.0.nombrearchivo}}">{{objeto.0.nombre}}</a>
+					</div>
+				</div>
+				<div class="row mb-5">
+					<div class="col referencia">
+						({{objeto.0.referencia_media}})
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+	</div>
+{% endblock %}
